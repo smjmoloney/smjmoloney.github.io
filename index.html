@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description"
+        content="A demonstration of accessibility, CSS, and JavaScript best practices with responsive design.">
+    <meta name="language" content="en">
+    <title>Accessibility & CSS/JS Demo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body aria-label="Demo Website Body">
+    <header>
+        <h1>Accessibility Demo Website</h1>
+        <nav aria-label="Main navigation">
+            <ul>
+                <li><a href="#image-demo">Image Alt Demo</a></li>
+                <li><a href="#css-demo">CSS Demo</a></li>
+                <li><a href="#js-demo">JavaScript Demo</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="image-demo">
+            <h2>Image Alt Attribute</h2>
+            <img src="https://placehold.co/150x150?text=Demo+Image" alt="A simple placeholder square image" width="150"
+                height="150">
+            <p>This image uses a descriptive <code>alt</code> attribute for screen readers.</p>
+        </section>
+
+        <section id="css-demo">
+            <h2>CSS Styling Example</h2>
+            <div class="styled-box" tabindex="0" aria-label="A visually styled box for demonstration">Styled Box</div>
+            <p>The box above is styled using CSS and is keyboard focusable.</p>
+        </section>
+
+        <section id="js-demo">
+            <h2>JavaScript Interaction</h2>
+            <button id="demoBtn" aria-label="Show message" onclick="showMessage()">Click Me</button>
+            <div id="message" aria-live="polite"></div>
+        </section>
+
+        <section id="form-demo">
+            <h2>Accessible Form</h2>
+            <form onsubmit="return handleForm(event)">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" aria-label="Enter your name">
+                <input type="submit" value="Submit">
+            </form>
+            <div id="formMessage" aria-live="polite"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Accessibility Demo</p>
+    </footer>
+    <script src="scripts.js"></script>
+</body>
+
+</html>
