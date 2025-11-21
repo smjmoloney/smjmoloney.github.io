@@ -76,8 +76,6 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentSlide = 0;
     const slides = document.querySelectorAll('.carousel-img');
     const indicators = document.querySelectorAll('.indicator');
-    const prevBtn = document.getElementById('prev-btn');
-    const nextBtn = document.getElementById('next-btn');
     
     function showSlide(index) {
         // Hide all slides
@@ -98,10 +96,6 @@ document.addEventListener('DOMContentLoaded', function() {
         currentSlide = (currentSlide - 1 + slides.length) % slides.length;
         showSlide(currentSlide);
     }
-    
-    // Event listeners for carousel
-    nextBtn.addEventListener('click', nextSlide);
-    prevBtn.addEventListener('click', prevSlide);
     
     // Indicator clicks
     indicators.forEach((indicator, index) => {
@@ -184,5 +178,5 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Log that JavaScript loaded successfully
     console.log('✓ JavaScript interactivity loaded successfully!');
-    console.log('✓ Features: Form validation, Image carousel, Animations, Button feedback');
+    console.log('✓ Features: Form validation, Image carousel indicators, Animations, Button feedback');
 });

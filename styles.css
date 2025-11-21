@@ -11,7 +11,7 @@ body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     line-height: 1.6;
     color: #1f2937;
-    background: #f9fafb;
+    background: #f0f0f0;
     min-height: 100vh;
 }
 
@@ -33,7 +33,7 @@ main {
 #about h1 {
     font-size: 2.5rem;
     font-weight: 700;
-    color: #111827;
+    color: #222;
     margin-bottom: 0.5rem;
     letter-spacing: -0.025em;
 }
@@ -52,11 +52,6 @@ main {
     margin: 0 auto 2rem;
 }
 
-.about-image {
-    margin-top: 1rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
 /* CSS Grid Gallery - Responsive Design (2pts) */
 #gallery {
     padding: 4rem 2rem;
@@ -68,7 +63,7 @@ main {
     font-size: 2rem;
     font-weight: 600;
     margin-bottom: 3rem;
-    color: #111827;
+    color: #222;
 }
 
 .grid-container {
@@ -105,7 +100,7 @@ main {
     font-size: 1.25rem;
     font-weight: 600;
     margin-bottom: 0.5rem;
-    color: #111827;
+    color: #222;
 }
 
 .grid-item p {
@@ -125,7 +120,7 @@ main {
     font-size: 2rem;
     font-weight: 600;
     margin-bottom: 2rem;
-    color: #111827;
+    color: #222;
 }
 
 form {
@@ -165,7 +160,7 @@ textarea {
 }
 
 button {
-    background: #111827;
+    background: #222;
     color: white;
     padding: 0.875rem 1.5rem;
     border: none;
@@ -219,7 +214,7 @@ button:active {
     font-size: 2rem;
     font-weight: 600;
     margin-bottom: 1rem;
-    color: #111827;
+    color: #222;
 }
 
 #carousel p {
@@ -256,23 +251,6 @@ button:active {
     opacity: 1;
 }
 
-.carousel-controls {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin: 1.5rem 0;
-}
-
-.carousel-controls button {
-    background: #374151;
-    padding: 0.625rem 1.25rem;
-    font-size: 0.9rem;
-}
-
-.carousel-controls button:hover {
-    background: #111827;
-}
-
 .carousel-indicators {
     display: flex;
     justify-content: center;
@@ -288,18 +266,19 @@ button:active {
     cursor: pointer;
     transition: all 0.2s ease;
     padding: 0;
+    border-radius: 500px;
 }
 
 .indicator.active,
 .indicator:hover {
     border-color: #374151;
-    background: #374151;
+    background: #222;
 }
 
 footer {
     text-align: center;
     padding: 2rem;
-    background: #111827;
+    background: #222;
     color: #d1d5db;
     font-size: 0.9rem;
     border-top: 1px solid #374151;
@@ -331,15 +310,6 @@ footer {
     
     #gallery, #contact, #carousel {
         padding: 3rem 1.5rem;
-    }
-    
-    .carousel-controls {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .carousel-controls button {
-        width: 200px;
     }
 }
 
