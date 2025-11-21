@@ -266,7 +266,7 @@ button:active {
     cursor: pointer;
     transition: all 0.2s ease;
     padding: 0;
-    border-radius: 500px;
+    border-radius: 1000px;
 }
 
 .indicator.active,

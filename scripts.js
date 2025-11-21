@@ -1,7 +1,8 @@
 // JavaScript Portfolio - Demonstrating Interactivity (5pts)
 
-document.addEventListener('DOMContentLoaded', function() {
-    
+document.addEventListener('DOMContentLoaded', function()
+{
+
     // FEATURE 1: Contact Form Validation with Live Feedback
     const contactForm = document.getElementById('contactForm');
     const nameInput = document.getElementById('name');
