@@ -2,63 +2,100 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description"
-        content="A demonstration of accessibility, CSS, and JavaScript best practices with responsive design.">
-    <meta name="language" content="en">
-    <title>Accessibility & CSS/JS Demo</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Sean Moloney - Full Stack Developer Portfolio</title>
+    <meta name="description" content="Portfolio showcasing HTML, CSS, JavaScript, accessibility and responsive design">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="./styles.css">
 </head>
 
-<body aria-label="Demo Website Body">
-    <header>
-        <h1>Accessibility Demo Website</h1>
-        <nav aria-label="Main navigation">
-            <ul>
-                <li><a href="#image-demo">Image Alt Demo</a></li>
-                <li><a href="#css-demo">CSS Demo</a></li>
-                <li><a href="#js-demo">JavaScript Demo</a></li>
-            </ul>
-        </nav>
-    </header>
-
+<body>
+    <!-- Semantic HTML Structure (5pts) -->
     <main>
-        <section id="image-demo">
-            <h2>Image Alt Attribute</h2>
-            <img src="https://placehold.co/150x150?text=Demo+Image" alt="A simple placeholder square image" width="150"
-                height="150">
-            <p>This image uses a descriptive <code>alt</code> attribute for screen readers.</p>
+        <section id="about">
+            <h1>Sean Moloney</h1>
+            <p>Full Stack Developer</p>
+            <p>Passionate developer creating accessible, responsive web experiences.</p>
+            <img src="https://via.placeholder.com/150x150/6B7280/white?text=Web" alt="Gray placeholder image symbolizing web development" class="about-image">
         </section>
 
-        <section id="css-demo">
-            <h2>CSS Styling Example</h2>
-            <div class="styled-box" tabindex="0" aria-label="A visually styled box for demonstration">Styled Box</div>
-            <p>The box above is styled using CSS and is keyboard focusable.</p>
+        <!-- Grid Gallery demonstrating responsive design -->
+        <section id="gallery" aria-labelledby="gallery-heading">
+            <h2 id="gallery-heading">Skills & Technologies</h2>
+            <div class="grid-container">
+                <article class="grid-item">
+                    <img src="https://via.placeholder.com/120x120/374151/white?text=HTML" alt="Dark gray placeholder representing HTML5 technology">
+                    <h3>HTML5</h3>
+                    <p>Semantic markup</p>
+                </article>
+                <article class="grid-item">
+                    <img src="https://via.placeholder.com/120x120/4B5563/white?text=CSS" alt="Medium gray placeholder representing CSS3 styling">
+                    <h3>CSS3</h3>
+                    <p>Modern styling</p>
+                </article>
+                <article class="grid-item">
+                    <img src="https://via.placeholder.com/120x120/6B7280/white?text=JS" alt="Light gray placeholder representing JavaScript programming">
+                    <h3>JavaScript</h3>
+                    <p>Interactive features</p>
+                </article>
+                <article class="grid-item">
+                    <img src="https://via.placeholder.com/120x120/9CA3AF/white?text=A11Y" alt="Lighter gray placeholder representing web accessibility">
+                    <h3>Accessibility</h3>
+                    <p>Inclusive design</p>
+                </article>
+            </div>
         </section>
 
-        <section id="js-demo">
-            <h2>JavaScript Interaction</h2>
-            <button id="demoBtn" aria-label="Show message" onclick="showMessage()">Click Me</button>
-            <div id="message" aria-live="polite"></div>
-        </section>
-
-        <section id="form-demo">
-            <h2>Accessible Form</h2>
-            <form onsubmit="return handleForm(event)">
+        <!-- Interactive contact form (JavaScript 5pts) -->
+        <section id="contact" aria-labelledby="contact-heading">
+            <h2 id="contact-heading">Contact</h2>
+            <form id="contactForm" novalidate>
                 <label for="name">Name:</label>
-                <input type="text" id="name" name="name" aria-label="Enter your name">
-                <input type="submit" value="Submit">
+                <input type="text" id="name" name="name" required aria-describedby="name-error">
+                <span id="name-error" class="error-message" role="alert"></span>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required aria-describedby="email-error">
+                <span id="email-error" class="error-message" role="alert"></span>
+
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" required aria-describedby="message-error"></textarea>
+                <span id="message-error" class="error-message" role="alert"></span>
+
+                <button type="submit" id="submit-btn">Send Message</button>
+                <div id="form-status" role="status" aria-live="polite"></div>
             </form>
-            <div id="formMessage" aria-live="polite"></div>
         </section>
+
+        <!-- Interactive image carousel for obvious JavaScript demo -->
+        <section id="carousel" aria-labelledby="carousel-heading">
+            <h2 id="carousel-heading">Interactive Image Carousel</h2>
+            <p>Click the buttons to cycle through images (JavaScript demo)</p>
+            <div class="carousel-container">
+                <div class="carousel-images">
+                    <img src="https://via.placeholder.com/300x200/374151/white?text=Image+1" alt="Dark gray placeholder image one in carousel" class="carousel-img active">
+                    <img src="https://via.placeholder.com/300x200/6B7280/white?text=Image+2" alt="Medium gray placeholder image two in carousel" class="carousel-img">
+                    <img src="https://via.placeholder.com/300x200/9CA3AF/white?text=Image+3" alt="Light gray placeholder image three in carousel" class="carousel-img">
+                </div>
+                <div class="carousel-controls">
+                    <button type="button" id="prev-btn" aria-label="Previous image">← Previous</button>
+                    <button type="button" id="next-btn" aria-label="Next image">Next →</button>
+                </div>
+                <div class="carousel-indicators" role="tablist">
+                    <button type="button" class="indicator active" aria-label="View image 1" data-slide="0" role="tab"></button>
+                    <button type="button" class="indicator" aria-label="View image 2" data-slide="1" role="tab"></button>
+                    <button type="button" class="indicator" aria-label="View image 3" data-slide="2" role="tab"></button>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 Sean Moloney. Portfolio demonstrating HTML, CSS, JavaScript, Accessibility & Responsive Design.</p>
+        </footer>
     </main>
 
-    <footer>
-        <p>&copy; 2025 Accessibility Demo</p>
-    </footer>
-    <script src="scripts.js"></script>
+    <script src="./scripts.js" defer></script>
 </body>
 
 </html>
