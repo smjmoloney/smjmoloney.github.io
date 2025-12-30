@@ -1,2 +1,2 @@
 # smjmoloney.github.io
-This is a mock website following the guidelines of a Courera course on Full-Stack Development.
+This website follows guidelines presented in the 'Introduction to Web Development' course—part of the 'Microsoft Full-Stack Developer Professional Certificate' on Coursera.
