@@ -1,2 +1,2 @@
 # smjmoloney.github.io
-This website meets criteria presented in the 'Introduction to Web Development' course—part of the 'Microsoft Full-Stack Developer Professional Certificate' on Coursera.
+This website meets criteria presented in 'Introduction to Web Development', a course which is one of twelve in the 'Microsoft Full-Stack Developer Professional Certificate' series on Coursera.
