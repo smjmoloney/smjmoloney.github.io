@@ -5,7 +5,7 @@ const { count, size, warnings } = await generateSW({
     globPatterns: ["**/*.{html,js,css,webmanifest,ico,svg,png}"],
     globIgnores: ["sw.js", "workbox-*.js"],
     swDest: "dist/sw.js",
-    navigateFallback: "/index.html",
+    navigateFallback: "/threads/index.html",
     cleanupOutdatedCaches: true,
     clientsClaim: true,
     skipWaiting: true,
