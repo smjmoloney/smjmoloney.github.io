@@ -1,5 +1,4 @@
 ---
-import ThreadInventory from "../components/thread/ThreadInventory";
 import "../styles/global.css";
 ---
 
@@ -8,14 +7,37 @@ import "../styles/global.css";
         <meta charset="utf-8" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="icon" href="/favicon.ico" />
-        <link rel="manifest" href="/manifest.webmanifest" />
         <meta name="viewport" content="width=device-width" />
         <meta name="theme-color" content="#fafafa" />
         <meta name="generator" content={Astro.generator} />
-        <title>Thread Tracker</title>
+        <title>smjmoloney</title>
     </head>
     <body>
-        <ThreadInventory client:load />
-        <script is:inline src="/registerSW.js"></script>
+        <main>
+            <h1>smjmoloney</h1>
+            <nav aria-label="Projects">
+                <a href="/threads/">Thread Tracker</a>
+            </nav>
+        </main>
     </body>
 </html>
+
+<style>
+    main {
+        width: min(100% - 2rem, 48rem);
+        margin: 0 auto;
+        padding: 4rem 0;
+    }
+
+    h1 {
+        margin: 0 0 2rem;
+        font-size: 2rem;
+        font-weight: 500;
+    }
+
+    a {
+        color: inherit;
+        font-size: 1rem;
+        text-underline-offset: 0.2em;
+    }
+</style>

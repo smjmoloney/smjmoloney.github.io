@@ -11,6 +11,7 @@ export default defineConfig({
             tailwindcss(),
             VitePWA({
                 registerType: "autoUpdate",
+                scope: "/threads/",
                 manifest: {
                     name: "Thread Tracker",
                     short_name: "ThreadTracker",
@@ -18,7 +19,8 @@ export default defineConfig({
                     theme_color: "#fafafa",
                     background_color: "#fafafa",
                     display: "standalone",
-                    start_url: "/",
+                    start_url: "/threads/",
+                    scope: "/threads/",
                     icons: [
                         {
                             src: "/icons/pwa-192x192.png",
