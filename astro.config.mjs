@@ -35,4 +35,5 @@ export default defineConfig({
             }),
         ],
     },
+    site: 'https://smjmoloney.github.io',
 });
