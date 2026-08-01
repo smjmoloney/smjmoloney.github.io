@@ -1,0 +1,57 @@
+@import "@fontsource/roboto/400.css";
+@import "@fontsource/roboto/500.css";
+@import "tailwindcss";
+
+:root {
+    color: #171717;
+    background: #fafafa;
+    font-family: "Roboto", "Segoe UI", sans-serif;
+    font-weight: 400;
+    line-height: 1.35;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    min-width: 320px;
+    min-height: 100%;
+    background: #fafafa;
+}
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    background: #fafafa;
+    font-size: 0.875rem;
+}
+
+.font-serif {
+    font-family: "Roboto", "Segoe UI", sans-serif;
+}
+
+button,
+input,
+textarea,
+select {
+    font-family: inherit;
+}
+
+button,
+[role="button"] {
+    touch-action: manipulation;
+}
+
+:where(*:focus, *:focus-visible) {
+    --tw-ring-color: transparent !important;
+    --tw-ring-offset-shadow: 0 0 #0000 !important;
+    --tw-ring-shadow: 0 0 #0000 !important;
+    outline: none !important;
+}
+
+:where(input, textarea, select, button):is(:focus, :focus-visible) {
+    border-color: #e5e5e5 !important;
+}
