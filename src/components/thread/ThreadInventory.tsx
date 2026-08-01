@@ -5,16 +5,18 @@ import {
     Check,
     ChevronDown,
     CircleAlert,
+    Hash,
     Minus,
+    Palette,
     Plus,
     Search,
     ShoppingBasket,
     Trash2,
     X,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast, Toaster } from "sonner";
-import { moulineSpecialFixture } from "../../data/dmc";
+import { moulineSpecial } from "../../data/dmc";
 import {
     addToBuyList,
     db,
@@ -25,6 +27,10 @@ import {
     remainingLevelCopy,
     remainingLevelOptions,
 } from "../../lib/thread-copy";
+import {
+    sortAndGroupColours,
+    type CatalogueSort,
+} from "../../lib/thread-sorting";
 import type {
     BuyListItem,
     DmcColour,
@@ -33,7 +39,7 @@ import type {
     ThreadInventoryRecord,
 } from "../../types/thread";
 
-const range = moulineSpecialFixture;
+const range = moulineSpecial;
 
 function isOwned(record?: ThreadInventoryRecord): boolean {
     return Boolean(
@@ -259,9 +265,12 @@ export default function ThreadInventory() {
     const buyList = useLiveQuery(() => db.buyList.toArray(), []) ?? [];
     const [query, setQuery] = useState("");
     const [status, setStatus] = useState<InventoryStatus>("all");
+    const [sort, setSort] = useState<CatalogueSort>("number");
     const [view, setView] = useState<"catalogue" | "buy-list">("catalogue");
+    const [scrollMarker, setScrollMarker] = useState({ label: "", top: 0, visible: false });
     const [editingColour, setEditingColour] = useState<DmcColour | null>(null);
     const [pendingBuyColour, setPendingBuyColour] = useState<DmcColour | null>(null);
+    const catalogueRef = useRef<HTMLElement>(null);
 
     const inventoryByNumber = new Map(inventory.map((record) => [record.dmcNumber, record]));
     const buyListByNumber = new Map(buyList.map((item) => [item.dmcNumber, item]));
@@ -282,6 +291,52 @@ export default function ThreadInventory() {
             (status === "low" && isLowStock(record));
         return matchesQuery && matchesStatus;
     });
+    const groupedColours = sortAndGroupColours(filteredColours, sort);
+    const groupSignature = groupedColours.map((group) => group.key).join("|");
+
+    useEffect(() => {
+        let frame = 0;
+
+        function updateScrollMarker() {
+            const catalogue = catalogueRef.current;
+            if (!catalogue || view !== "catalogue") {
+                setScrollMarker((marker) => ({ ...marker, visible: false }));
+                return;
+            }
+
+            const documentHeight = document.documentElement.scrollHeight;
+            const viewportHeight = window.innerHeight;
+            const scrollRange = Math.max(documentHeight - viewportHeight, 1);
+            const thumbHeight = Math.max((viewportHeight * viewportHeight) / documentHeight, 24);
+            const thumbTravel = Math.max(viewportHeight - thumbHeight, 0);
+            const thumbCenter = (window.scrollY / scrollRange) * thumbTravel + thumbHeight / 2;
+            const catalogueBounds = catalogue.getBoundingClientRect();
+            const sections = Array.from(catalogue.querySelectorAll<HTMLElement>("[data-catalogue-group]"));
+            const currentSection = sections.reduce((current, section) =>
+                section.getBoundingClientRect().top <= 64 ? section : current,
+            sections[0]);
+
+            setScrollMarker({
+                label: currentSection?.dataset.catalogueGroup ?? "",
+                top: thumbCenter,
+                visible: catalogueBounds.top < viewportHeight && catalogueBounds.bottom > 0,
+            });
+        }
+
+        function scheduleUpdate() {
+            cancelAnimationFrame(frame);
+            frame = requestAnimationFrame(updateScrollMarker);
+        }
+
+        scheduleUpdate();
+        window.addEventListener("scroll", scheduleUpdate, { passive: true });
+        window.addEventListener("resize", scheduleUpdate);
+        return () => {
+            cancelAnimationFrame(frame);
+            window.removeEventListener("scroll", scheduleUpdate);
+            window.removeEventListener("resize", scheduleUpdate);
+        };
+    }, [groupSignature, view]);
 
     async function commitBuyList(colour: DmcColour) {
         const existing = buyListByNumber.get(colour.dmcNumber);
@@ -319,6 +374,15 @@ export default function ThreadInventory() {
     return (
         <div className="min-h-screen pb-[calc(2rem+env(safe-area-inset-bottom))]">
             <Toaster position="top-center" richColors closeButton />
+            {scrollMarker.visible && (
+                <div
+                    className="pointer-events-none fixed right-3 z-30 -translate-y-1/2 rounded-sm border border-neutral-300 bg-white/95 px-2.5 py-1 text-sm font-medium text-neutral-700 shadow-sm backdrop-blur"
+                    style={{ top: scrollMarker.top }}
+                    aria-hidden="true"
+                >
+                    {scrollMarker.label}
+                </div>
+            )}
             <header className="border-b border-neutral-200/80 bg-[#fafafa]/95 backdrop-blur">
                 <div className="mx-auto max-w-7xl px-4 pb-4 pt-[calc(1rem+env(safe-area-inset-top))] sm:px-6 lg:px-8">
                     <div className="flex flex-wrap items-center justify-between gap-3">
@@ -344,17 +408,10 @@ export default function ThreadInventory() {
             </header>
 
             <main className="mx-auto max-w-7xl px-4 py-5 sm:px-6 lg:px-8">
-                {/* {range.catalogueStatus === "fixture" && (
-                    <div className="mb-4 flex gap-3 rounded-sm border border-neutral-200/80 bg-neutral-100/70 px-3 py-2.5 text-sm text-neutral-700" role="status">
-                        <CircleAlert className="mt-0.5 shrink-0" size={18} />
-                        <p><strong>Prototype catalogue:</strong> this build uses {range.colours.length} sample colours while the reusable complete catalogue is sourced and verified.</p>
-                    </div>
-                )} */}
-
                 {view === "catalogue" ? (
                     <>
                         <section aria-label="Catalogue controls">
-                            <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
+                            <div className="flex flex-col gap-3 xl:flex-row xl:items-center">
                                 <label className="block min-w-0 flex-1">
                                     <span className="sr-only">Search by DMC number or colour name</span>
                                     <span className="relative block">
@@ -373,23 +430,42 @@ export default function ThreadInventory() {
                                         ) : null}
                                     </span>
                                 </label>
-                                <div className="flex shrink-0 gap-1 overflow-x-auto rounded-sm bg-white border border-neutral-200/80" aria-label="Filter catalogue">
-                                    {([
-                                        ["all", "All", range.colours.length],
-                                        ["owned", "Owned", ownedCount],
-                                        ["need", "Needed", range.colours.length - ownedCount],
-                                        ["low", "Low", lowStockCount],
-                                    ] as Array<[InventoryStatus, string, number]>).map(([value, label, count]) => (
-                                        <button
-                                            key={value}
-                                            type="button"
-                                            className={`min-h-10 shrink-0 px-3 text-sm ${status === value ? "bg-neutral-900 text-white" : "text-neutral-600 hover:text-neutral-950"}`}
-                                            onClick={() => setStatus(value)}
-                                            aria-pressed={status === value}
-                                        >
-                                            {label} <span className="ml-1 opacity-70">{count}</span>
-                                        </button>
-                                    ))}
+                                <div className="flex min-w-0 flex-wrap gap-2">
+                                    <div className="flex max-w-full shrink-0 gap-1 overflow-x-auto rounded-sm border border-neutral-200/80 bg-white" aria-label="Filter catalogue">
+                                        {([
+                                            ["all", "All", range.colours.length],
+                                            ["owned", "Owned", ownedCount],
+                                            ["need", "Needed", range.colours.length - ownedCount],
+                                            ["low", "Low", lowStockCount],
+                                        ] as Array<[InventoryStatus, string, number]>).map(([value, label, count]) => (
+                                            <button
+                                                key={value}
+                                                type="button"
+                                                className={`min-h-10 shrink-0 px-3 text-sm ${status === value ? "bg-neutral-900 text-white" : "text-neutral-600 hover:text-neutral-950"}`}
+                                                onClick={() => setStatus(value)}
+                                                aria-pressed={status === value}
+                                            >
+                                                {label} <span className="ml-1 opacity-70">{count}</span>
+                                            </button>
+                                        ))}
+                                    </div>
+                                    <div className="flex shrink-0 gap-1 rounded-sm border border-neutral-200/80 bg-white" aria-label="Sort catalogue">
+                                        {([
+                                            ["number", "Number", Hash],
+                                            ["colour", "Colour", Palette],
+                                        ] as const).map(([value, label, Icon]) => (
+                                            <button
+                                                key={value}
+                                                type="button"
+                                                className={`inline-flex min-h-10 items-center gap-1.5 px-3 text-sm ${sort === value ? "bg-neutral-900 text-white" : "text-neutral-600 hover:text-neutral-950"}`}
+                                                onClick={() => setSort(value)}
+                                                aria-pressed={sort === value}
+                                            >
+                                                <Icon size={16} aria-hidden="true" />
+                                                {label}
+                                            </button>
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
                             <p className="mt-2 text-sm leading-tight text-neutral-500">Colour swatches are approximate and may differ from physical thread.</p>
@@ -402,17 +478,27 @@ export default function ThreadInventory() {
                         </div>
 
                         {filteredColours.length ? (
-                            <section className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5" aria-label="DMC colour catalogue">
-                                {filteredColours.map((colour) => (
-                                    <ThreadCard
-                                        key={colour.dmcNumber}
-                                        colour={colour}
-                                        inventory={inventoryByNumber.get(colour.dmcNumber)}
-                                        onEdit={setEditingColour}
-                                        onAddToBuyList={requestAddToBuyList}
-                                        isOnBuyList={buyListByNumber.has(colour.dmcNumber)}
-                                    />
-                                ))}
+                            <section ref={catalogueRef} className="space-y-8" aria-label="DMC colour catalogue">
+                                {groupedColours.map((group) => {
+                                    const headingId = `catalogue-group-${sort}-${group.key}`;
+                                    return (
+                                        <section key={group.key} data-catalogue-group={group.label} aria-labelledby={headingId}>
+                                            <h2 id={headingId} className="sr-only">{group.label}</h2>
+                                            <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+                                                {group.colours.map((colour) => (
+                                                    <ThreadCard
+                                                        key={colour.dmcNumber}
+                                                        colour={colour}
+                                                        inventory={inventoryByNumber.get(colour.dmcNumber)}
+                                                        onEdit={setEditingColour}
+                                                        onAddToBuyList={requestAddToBuyList}
+                                                        isOnBuyList={buyListByNumber.has(colour.dmcNumber)}
+                                                    />
+                                                ))}
+                                            </div>
+                                        </section>
+                                    );
+                                })}
                             </section>
                         ) : (
                             <div className="rounded-sm border border-dashed border-neutral-200 bg-white px-6 py-14 text-center">

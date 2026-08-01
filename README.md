@@ -16,7 +16,7 @@ The first functional prototype includes:
 - An offline-capable app shell that loads the catalogue after its first visit.
 - A range-aware schema ready for additional DMC product ranges.
 
-The catalogue currently contains 12 clearly labelled fixture colours. Do not treat it as the final DMC catalogue. The complete 504-option Mouliné Spécial dataset will be added only when its reuse terms and provenance are documented.
+The catalogue contains 505 Mouliné Spécial inventory colours. DMC's US storefront currently exposes 504 as selectable options; DMC 336 is retained because an inventory tracker should not hide an existing colour merely because it is currently unavailable to purchase. Names and on-screen colours are approximate reference aids for this private, noncommercial tool.
 
 ## Technology
 
@@ -37,10 +37,13 @@ Run commands from the repository root:
 
 ```sh
 npm install
+npm run generate:catalogue
 npm run dev
 npm run build
 npm run preview
 ```
+
+`generate:catalogue` refreshes the checked-in catalogue from DMC's structured US product data and derives approximate display colours from its thread swatch images. Normal builds do not require network access.
 
 The repository development server can also be managed in background mode:
 
@@ -62,8 +65,7 @@ DMC identifiers remain strings so values such as `01`, `White`, `Ecru`, and `B52
 
 ## Remaining Foundation Work
 
-- Source and document a reusable complete 504-option Mouliné Spécial catalogue.
 - Generate final standard, maskable, and Apple touch icons.
 - Add validated JSON export and preview-and-replace restore.
-- Add automated unit and browser tests.
+- Expand unit coverage and add browser tests.
 - Verify production installation, offline launch, and persistence on a physical iPhone.
