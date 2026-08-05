@@ -13,28 +13,28 @@ const OUTPUT_URL = new URL(
 const EXPECTED_COLOUR_COUNT = 505;
 const CONCURRENCY = 8;
 const FALLBACK_METADATA = {
-    "3685": { hex: "#881531" },
-    "3773": { colourName: "Desert Sand - Medium" },
-    "504": { colourName: "Blue Green - Very Light" },
-    "731": { colourName: "Olive Green - Dark" },
-    "781": { colourName: "Topaz - Very Dark" },
-    "806": { colourName: "Peacock Blue - Dark" },
-    "971": { colourName: "Pumpkin" },
+    3685: { hex: "#881531" },
+    3773: { colourName: "Desert Sand - Medium" },
+    504: { colourName: "Blue Green - Very Light" },
+    731: { colourName: "Olive Green - Dark" },
+    781: { colourName: "Topaz - Very Dark" },
+    806: { colourName: "Peacock Blue - Dark" },
+    971: { colourName: "Pumpkin" },
 };
 const LEGACY_NAME_CORRECTIONS = {
-    "311": "Navy Blue - Medium",
-    "407": "Desert Sand - Dark",
-    "561": "Jade - Very Dark",
-    "608": "Orange - Bright",
-    "666": "Red - Bright",
-    "890": "Pistachio Green - Ultra Dark",
-    "934": "Avocado Green - Black",
-    "943": "Aquamarine - Medium",
-    "966": "Baby Green - Medium",
-    "3773": "Desert Sand - Medium",
-    "3844": "Turquoise - Dark Bright",
-    "3845": "Turquoise - Medium Bright",
-    "3846": "Turquoise - Light Bright",
+    311: "Navy Blue - Medium",
+    407: "Desert Sand - Dark",
+    561: "Jade - Very Dark",
+    608: "Orange - Bright",
+    666: "Red - Bright",
+    890: "Pistachio Green - Ultra Dark",
+    934: "Avocado Green - Black",
+    943: "Aquamarine - Medium",
+    966: "Baby Green - Medium",
+    3773: "Desert Sand - Medium",
+    3844: "Turquoise - Dark Bright",
+    3845: "Turquoise - Medium Bright",
+    3846: "Turquoise - Light Bright",
 };
 
 function cleanLegacyName(name) {
@@ -174,9 +174,8 @@ async function mapWithConcurrency(items, mapper) {
     }
 
     await Promise.all(
-        Array.from(
-            { length: Math.min(CONCURRENCY, items.length) },
-            () => worker(),
+        Array.from({ length: Math.min(CONCURRENCY, items.length) }, () =>
+            worker(),
         ),
     );
     return results;
@@ -212,7 +211,9 @@ const colours = await mapWithConcurrency(variants, async (variant, index) => {
     const swatchUrl = variant.colour?.swatch;
 
     if (!code || !colourName || (!swatchUrl && !fallback?.hex)) {
-        throw new Error(`Variant at index ${index} is missing colour metadata.`);
+        throw new Error(
+            `Variant at index ${index} is missing colour metadata.`,
+        );
     }
 
     const colour = {

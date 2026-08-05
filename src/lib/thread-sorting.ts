@@ -2,11 +2,11 @@ import type { DmcColour } from "../types/thread";
 
 export type CatalogueSort = "number" | "colour";
 
-export interface CatalogueGroup {
+export type CatalogueGroup = {
     key: string;
     label: string;
     colours: DmcColour[];
-}
+};
 
 const colourFamilies = [
     "Neutral",

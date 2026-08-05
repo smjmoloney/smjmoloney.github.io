@@ -15,7 +15,8 @@ export default defineConfig({
                 manifest: {
                     name: "Thread Tracker",
                     short_name: "ThreadTracker",
-                    description: "Keep track of your personal DMC thread collection.",
+                    description:
+                        "Keep track of your personal DMC thread collection.",
                     theme_color: "#fafafa",
                     background_color: "#fafafa",
                     display: "standalone",
@@ -37,5 +38,5 @@ export default defineConfig({
             }),
         ],
     },
-    site: 'https://smjmoloney.github.io',
+    site: "https://smjmoloney.github.io",
 });

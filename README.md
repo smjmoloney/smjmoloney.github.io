@@ -29,6 +29,7 @@ The catalogue contains 505 Mouliné Spécial inventory colours. DMC's US storefr
 - Vite PWA and Workbox
 
 Astro provides the document shell. One hydrated React application owns the interactive catalogue, editor, filters, and local persistence.
+The React application is organized as a feature under `src/features/thread-inventory`: presentational components receive typed props, hooks own state and side effects, and pure utilities own stock and filtering rules.
 Astro 7's multi-environment build currently prevents Vite PWA from emitting its worker reliably, so the production build runs an explicit Workbox post-build step that generates `dist/sw.js` from the completed static output.
 
 ## Commands
@@ -39,9 +40,12 @@ Run commands from the repository root:
 npm install
 npm run generate:catalogue
 npm run dev
+npm run check
 npm run build
 npm run preview
 ```
+
+`check` runs ESLint, Prettier verification, Astro type checking, and the Vitest suite. See [docs/code-style.md](docs/code-style.md) for the team conventions applied to feature code.
 
 `generate:catalogue` refreshes the checked-in catalogue from DMC's structured US product data and derives approximate display colours from its thread swatch images. Normal builds do not require network access.
 

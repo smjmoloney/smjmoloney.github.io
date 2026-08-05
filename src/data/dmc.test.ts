@@ -27,14 +27,12 @@ describe("Mouline Special catalogue", () => {
             }),
         ).toEqual([]);
         expect(
-            moulineSpecial.colours.find(
-                (colour) => colour.dmcNumber === "310",
-            )?.colourName,
+            moulineSpecial.colours.find((colour) => colour.dmcNumber === "310")
+                ?.colourName,
         ).toBe("Black");
         expect(
-            moulineSpecial.colours.find(
-                (colour) => colour.dmcNumber === "321",
-            )?.colourName,
+            moulineSpecial.colours.find((colour) => colour.dmcNumber === "321")
+                ?.colourName,
         ).toBe("Red");
 
         const numericIdentifiers = moulineSpecial.colours

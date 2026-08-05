@@ -9,6 +9,6 @@ export const remainingLevelCopy: Record<RemainingLevel, string> = {
     empty: "Empty",
 };
 
-export const remainingLevelOptions = Object.entries(remainingLevelCopy) as Array<
-    [RemainingLevel, string]
->;
+export const remainingLevelOptions = Object.entries(
+    remainingLevelCopy,
+) as Array<[RemainingLevel, string]>;

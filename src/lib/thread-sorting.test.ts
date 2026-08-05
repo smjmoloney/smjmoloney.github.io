@@ -23,24 +23,20 @@ describe("catalogue sorting", () => {
             "900–999",
             "Special",
         ]);
-        expect(groups.flatMap((group) => group.colours).map((colour) => colour.dmcNumber)).toEqual([
-            "99",
-            "105",
-            "312",
-            "731",
-            "995",
-            "White",
-        ]);
+        expect(
+            groups
+                .flatMap((group) => group.colours)
+                .map((colour) => colour.dmcNumber),
+        ).toEqual(["99", "105", "312", "731", "995", "White"]);
     });
 
     it("keeps colours in the same family together", () => {
         const groups = sortAndGroupColours(colours, "colour");
         const blue = groups.find((group) => group.label === "Blue");
 
-        expect(
-            blue?.colours
-                .map((colour) => colour.dmcNumber)
-                .sort(),
-        ).toEqual(["312", "995"]);
+        expect(blue?.colours.map((colour) => colour.dmcNumber).sort()).toEqual([
+            "312",
+            "995",
+        ]);
     });
 });

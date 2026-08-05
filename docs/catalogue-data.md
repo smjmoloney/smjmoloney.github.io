@@ -34,10 +34,10 @@ official leading zero but sort by numeric value; special identifiers such as
 Seven incomplete source records use explicit legacy fallbacks:
 
 - DMC 3685 uses legacy RGB value `#881531` because its current record has no
-	swatch image.
+  swatch image.
 - DMC 3773, 504, 731, 781, 806, and 971 use expanded legacy names because their
-	current records have blank presentation names. Their current swatch images
-	still provide the approximate display colours.
+  current records have blank presentation names. Their current swatch images
+  still provide the approximate display colours.
 
 ## Sources Reviewed
 

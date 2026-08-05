@@ -1,0 +1,6 @@
+.astro
+dist
+node_modules
+package-lock.json
+public/sw.js
+src/data/dmc-colours.generated.ts
